@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Pranav Builds List with Divs</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f8f1;
+            text-align: center;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #2f5d34;
+        }
+
+        .flex-container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            background-color: #cfe8cf;
+            padding: 15px;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .divlist {
+            background-color: #f1f1f1;
+            padding: 20px;
+            font-size: 22px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 18px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 600px) {
+            .flex-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Pranav builds list with divs</h1>
+
+    <input type="text" id="inputText"
+           placeholder="Enter an item">
+
+    <button type="button" onclick="addEnd()">
+        Add end
+    </button>
+
+    <button type="button" onclick="addFront()">
+        Add front
+    </button>
+
+    <button type="button" onclick="removeEveryOther()">
+        Remove
+    </button>
+
+    <div class="flex-container" id="target">
+        <div class="divlist">row item 1</div>
+        <div class="divlist">row item 2</div>
+        <div class="divlist">row item 3</div>
+    </div>
+
+    <script>
+
+        // Part 7: Add item to the end
+        function addEnd() {
+
+            const container =
+                document.getElementById("target");
+
+            const newElement =
+                document.createElement("div");
+
+            const input =
+                document.getElementById("inputText");
+
+            if (container.children.length >= 20) {
+                alert("Maximum 20 items allowed");
+                return;
+            }
+
+            newElement.innerHTML = input.value;
+            newElement.className = "divlist";
+
+            container.appendChild(newElement);
+
+            input.value = "";
+        }
+
+        // Part 8: Add item to the front
+        function addFront() {
+
+            const container =
+                document.getElementById("target");
+
+            const newElement =
+                document.createElement("div");
+
+            const input =
+                document.getElementById("inputText");
+
+            if (container.children.length >= 20) {
+                alert("Maximum 20 items allowed");
+                return;
+            }
+
+            newElement.innerHTML = input.value;
+            newElement.className = "divlist";
+
+            container.insertBefore(
+                newElement,
+                container.firstChild
+            );
+
+            input.value = "";
+        }
+
+        // Part 8: Remove every other item
+        
+        function removeEveryOther() {
+             const divListItems =
+              document.getElementsByClassName("divlist");
+
+            const items = Array.from(divListItems);
+
+             for (let i = 0; i < items.length; i += 2) {
+                   items[i].remove();
+             }
+
+          
+        }
+
+    </script>
+
+</body>
+</html>
