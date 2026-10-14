@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,19 +51,24 @@
         let countdownTimers = [];
 
         function recordTime() {
+
             if (!countdownRunning ||
                 haltTime !== undefined) {
                 return;
             }
 
             haltTime = Date.now();
+
             console.log("Halt time:", haltTime);
         }
 
+        // Connect Halt button
         document.getElementById("halt").onclick =
             recordTime;
 
+
         // Part 6: Countdown timer
+        // Bonus: Random countdown from 2 to 10
 
         function beginTime() {
 
@@ -73,26 +79,30 @@
             haltTime = undefined;
             countdownRunning = true;
 
+            // Generate random starting number
+            const startCount =
+                Math.floor(Math.random() * 9) + 2;
+
             document.getElementById("target").innerHTML =
                 "Press Halt just before zero!";
 
             document.getElementById("counter").innerHTML =
-                "Count: 5";
+                "Count: " + startCount;
 
-            // Countdown from 5 to 0
-            for (let i = 0; i <= 5; i++) {
+            // Countdown from random number to 0
+            for (let i = 0; i <= startCount; i++) {
 
                 const timer = setTimeout(function () {
 
                     document.getElementById("counter")
                         .innerHTML = "Count: " + i;
 
-                }, (5 - i) * 1000);
+                }, (startCount - i) * 1000);
 
                 countdownTimers.push(timer);
             }
 
-            // Check the result after 5 seconds
+            // Check result when countdown finishes
             const finalTimer = setTimeout(function () {
 
                 countdownRunning = false;
@@ -104,9 +114,9 @@
 
                 } else {
 
-                    let targetTime = Date.now();
+                    const targetTime = Date.now();
 
-                    let elapsedTime =
+                    const elapsedTime =
                         targetTime - haltTime;
 
                     document.getElementById("target")
@@ -115,7 +125,7 @@
                         " milliseconds";
                 }
 
-            }, 5000);
+            }, startCount * 1000);
 
             countdownTimers.push(finalTimer);
         }
