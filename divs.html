@@ -78,6 +78,11 @@
         Remove
     </button>
 
+    <!-- Bonus: Random Swap Button -->
+    <button type="button" onclick="randomSwap()">
+        Random Swap
+    </button>
+
     <div class="flex-container" id="target">
         <div class="divlist">row item 1</div>
         <div class="divlist">row item 2</div>
@@ -103,7 +108,7 @@
                 return;
             }
 
-            newElement.innerHTML = input.value;
+            newElement.textContent = input.value;
             newElement.className = "divlist";
 
             container.appendChild(newElement);
@@ -128,7 +133,7 @@
                 return;
             }
 
-            newElement.innerHTML = input.value;
+            newElement.textContent = input.value;
             newElement.className = "divlist";
 
             container.insertBefore(
@@ -140,18 +145,63 @@
         }
 
         // Part 8: Remove every other item
-        
         function removeEveryOther() {
-             const divListItems =
-              document.getElementsByClassName("divlist");
+
+            const divListItems =
+                document.getElementsByClassName("divlist");
 
             const items = Array.from(divListItems);
 
-             for (let i = 0; i < items.length; i += 2) {
-                   items[i].remove();
-             }
+            for (let i = 0; i < items.length; i += 2) {
+                items[i].remove();
+            }
+        }
 
-          
+        // Bonus: Randomly swap two locations
+        function randomSwap() {
+
+            const container =
+                document.getElementById("target");
+
+            const items =
+                Array.from(container.children);
+
+            // Need at least two items
+            if (items.length < 2) {
+                alert("Need at least two items to swap!");
+                return;
+            }
+
+            // Select two different random positions
+            const first =
+                Math.floor(Math.random() * items.length);
+
+            let second =
+                Math.floor(Math.random() * items.length);
+
+            while (first === second) {
+                second =
+                    Math.floor(Math.random() * items.length);
+            }
+
+            // Swap the items at those positions
+            const firstItem = items[first];
+            const secondItem = items[second];
+
+            const placeholder =
+                document.createComment("swap");
+
+            container.replaceChild(
+                placeholder, firstItem
+            );
+
+            container.replaceChild(
+                firstItem, secondItem
+            );
+
+            container.replaceChild(
+                secondItem, placeholder
+            );
         }
 
     </script>
