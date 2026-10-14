@@ -1,200 +1,378 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Avian Flower Finder Game</title>
-  <style>
-    body { font-family: Arial, sans-serif; background: #f4f8f1; margin: 0; padding: 16px; }
-    h1 { text-align: center; color: #2f5d34; }
-    #info { max-width: 540px; margin: 0 auto 12px; }
-    #info div { margin: 4px 0; }
-    #helpbtn { color: #0b57d0; cursor: pointer; text-decoration: underline; }
-    #field { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .row { display: flex; gap: 4px; }
-    .cell { width: 80px; height: 80px; }
-    .cell img { width: 100%; height: 100%; display: block; cursor: pointer; }
-  </style>
-</head>
-<body>
-  <h1>Pranav finds avians</h1>
-  <div id="info">
-    <div>Click on the locations to find the flowers, watch out for the poison ivy</div>
-    <div id="locations">Number of locations checked is zero.</div>
-    <div id="score">Score is zero.</div>
-    <div id="helpbtn">Click for help.</div>
-    <div id="help">Help report</div>
-  </div>
-  <div id="field">
-    <div class="row">
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-    </div>
-    <div class="row">
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-    </div>
-    <div class="row">
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-    </div>
-    <div class="row">
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-    </div>
-    <div class="row">
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-    </div>
-    <div class="row">
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-      <div class="cell"><img src="images/bush.png" alt="bush"></div>
-    </div>
-  </div>
-  
-<script>
-  // Part 4: Flower Game
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Avian Flower Finder Game</title>
 
-  const ids = Array.from({ length: 36 }, (_, i) => "img" + i);
-
-  let score = 0;
-  let locationsVisited = 0;
-  let lastLocation = 0;
-
-  let poisonLocation = 19;
-  let roseLocation = 14;
-  let lilyLocations = [3, 25];
-  let daisyLocations = [2, 5, 11, 20, 21];
-
-  let gameOver = false;
-  const scoredLocations = new Set();
-
-  // Give all 36 images unique IDs and click handlers
-  const images = document.querySelectorAll("#field img");
-
-  images.forEach((image, index) => {
-    image.id = ids[index];
-    image.onclick = function () {
-      check(index);
-    };
-  });
-
-  // Check the clicked position
-  function check(position) {
-    if (gameOver) return;
-
-    const imageId = ids[position];
-    const image = document.getElementById(imageId);
-
-    if (!image) return;
-
-    if (position === poisonLocation) {
-      image.src = "images/ivy.png";
-      score -= 4;
-      gameOver = true;
-      image.onclick = null;
-
-    } else if (position === roseLocation) {
-      image.src = "images/rose.png";
-
-      if (!scoredLocations.has(position)) {
-        score += 4;
-        scoredLocations.add(position);
-      }
-
-    } else if (lilyLocations.includes(position)) {
-      image.src = "images/lily.png";
-
-      if (!scoredLocations.has(position)) {
-        score += 2;
-        scoredLocations.add(position);
-      }
-
-    } else if (daisyLocations.includes(position)) {
-      image.src = "images/daisy.png";
-
-      if (!scoredLocations.has(position)) {
-        score += 1;
-        scoredLocations.add(position);
-      }
-    }
-
-    locationsVisited++;
-
-    document.getElementById("locations").innerHTML =
-      "Number of locations checked is " + locationsVisited;
-
-    document.getElementById("score").innerHTML =
-      "Score is " + score;
-
-    lastLocation = position;
-  }
-
-  // Help function
-  function help() {
-    const row = Math.floor(lastLocation / 6);
-    const col = lastLocation % 6;
-
-    const neighbors = [
-      ((row + 5) % 6) * 6 + col,
-      ((row + 1) % 6) * 6 + col,
-      row * 6 + ((col + 5) % 6),
-      row * 6 + ((col + 1) % 6)
-    ];
-
-    let result = "warm";
-
-    if (neighbors.some(n => daisyLocations.includes(n))) {
-      result = "cold";
-    } else {
-      const nearby = [];
-
-      for (let r = Math.max(0, row - 1);
-           r <= Math.min(5, row + 1); r++) {
-        for (let c = Math.max(0, col - 1);
-             c <= Math.min(5, col + 1); c++) {
-          nearby.push(r * 6 + c);
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f8f1;
+            margin: 0;
+            padding: 16px;
         }
-      }
 
-      if (nearby.includes(roseLocation)) {
-        result = "hot";
-      } else if (nearby.includes(poisonLocation)) {
-        result = "watch out";
-      }
-    }
+        h1 {
+            text-align: center;
+            color: #2f5d34;
+        }
 
-    document.getElementById("help").innerHTML = result;
-    return result;
-  }
+        #info {
+            max-width: 540px;
+            margin: 0 auto 12px;
+        }
 
-  // Handle help click
-  document.getElementById("helpbtn").onclick = help;
-</script>
+        #info div {
+            margin: 4px 0;
+        }
+
+        #helpbtn {
+            color: #0b57d0;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        #field {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .row {
+            display: flex;
+            gap: 4px;
+        }
+
+        .cell {
+            width: 80px;
+            height: 80px;
+        }
+
+        .cell img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: pointer;
+        }
+
+        button {
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        #message {
+            font-weight: bold;
+            color: #2f5d34;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Pranav finds avians</h1>
+
+    <div id="info">
+        <div>
+            Click on the locations to find the flowers,
+            watch out for the poison ivy
+        </div>
+
+        <div id="locations">
+            Number of locations checked is zero.
+        </div>
+
+        <div id="score">Score is zero.</div>
+
+        <div id="helpbtn">Click for help.</div>
+
+        <div id="help">Help report</div>
+
+        <button id="newGame" type="button">
+            New Game
+        </button>
+
+        <div id="message">Find the flowers!</div>
+    </div>
+
+    <div id="field"></div>
+
+    <script>
+        // Flower Game
+
+        const field = document.getElementById("field");
+
+        const ids = Array.from(
+            { length: 36 },
+            (_, i) => "img" + i
+        );
+
+        let score = 0;
+        let locationsVisited = 0;
+        let lastLocation = null;
+
+        let poisonLocation = 19;
+        let roseLocation = 14;
+        let lilyLocations = [3, 25];
+        let daisyLocations = [2, 5, 11, 20, 21];
+
+        let gameOver = false;
+
+        const visitedLocations = new Set();
+
+        // Create 6 x 6 grid
+        function createField() {
+            field.innerHTML = "";
+
+            for (let row = 0; row < 6; row++) {
+
+                const rowDiv =
+                    document.createElement("div");
+
+                rowDiv.className = "row";
+
+                for (let col = 0; col < 6; col++) {
+
+                    const position = row * 6 + col;
+
+                    const cell =
+                        document.createElement("div");
+
+                    cell.className = "cell";
+
+                    const image =
+                        document.createElement("img");
+
+                    image.id = ids[position];
+                    image.src = "images/bush.png";
+                    image.alt = "bush";
+
+                    image.onclick = function () {
+                        check(position);
+                    };
+
+                    cell.appendChild(image);
+                    rowDiv.appendChild(cell);
+                }
+
+                field.appendChild(rowDiv);
+            }
+        }
+
+        // Check clicked position
+        function check(position) {
+
+            if (gameOver) return;
+
+            if (visitedLocations.has(position)) {
+                return;
+            }
+
+            const image =
+                document.getElementById(ids[position]);
+
+            if (!image) return;
+
+            visitedLocations.add(position);
+            locationsVisited++;
+
+            lastLocation = position;
+
+            // Poison ivy
+            if (position === poisonLocation) {
+
+                image.src = "images/ivy.png";
+
+                score -= 4;
+                gameOver = true;
+
+                document.getElementById("message")
+                    .innerHTML =
+                    "Game Over! You found poison ivy!";
+
+                document.getElementById("message")
+                    .style.color = "red";
+
+            }
+
+            // Rose
+            else if (position === roseLocation) {
+
+                image.src = "images/rose.png";
+                score += 4;
+
+            }
+
+            // Lilies
+            else if (lilyLocations.includes(position)) {
+
+                image.src = "images/lily.png";
+                score += 2;
+
+            }
+
+            // Daisies
+            else if (daisyLocations.includes(position)) {
+
+                image.src = "images/daisy.png";
+                score += 1;
+
+            }
+
+            // Update locations
+            document.getElementById("locations")
+                .innerHTML =
+                "Number of locations checked is " +
+                locationsVisited;
+
+            // Update score
+            document.getElementById("score")
+                .innerHTML =
+                "Score is " + score;
+
+            // Check if all safe locations were visited
+            if (!gameOver && locationsVisited === 35) {
+
+                gameOver = true;
+
+                document.getElementById("message")
+                    .innerHTML =
+                    "Congratulations! You found all safe locations!";
+
+            }
+        }
+
+        // Help function
+        function help() {
+
+            if (lastLocation === null) {
+
+                document.getElementById("help")
+                    .innerHTML =
+                    "Click a location first.";
+
+                return;
+            }
+
+            if (gameOver) {
+
+                document.getElementById("help")
+                    .innerHTML =
+                    "Game is over. Start a new game.";
+
+                return;
+            }
+
+            const row =
+                Math.floor(lastLocation / 6);
+
+            const col = lastLocation % 6;
+
+            const neighbors = [
+                ((row + 5) % 6) * 6 + col,
+                ((row + 1) % 6) * 6 + col,
+                row * 6 + ((col + 5) % 6),
+                row * 6 + ((col + 1) % 6)
+            ];
+
+            let result = "warm";
+
+            if (neighbors.some(
+                n => daisyLocations.includes(n)
+            )) {
+
+                result = "cold";
+
+            } else {
+
+                const nearby = [];
+
+                for (
+                    let r = Math.max(0, row - 1);
+                    r <= Math.min(5, row + 1);
+                    r++
+                ) {
+
+                    for (
+                        let c = Math.max(0, col - 1);
+                        c <= Math.min(5, col + 1);
+                        c++
+                    ) {
+
+                        nearby.push(r * 6 + c);
+                    }
+                }
+
+                if (nearby.includes(roseLocation)) {
+
+                    result = "hot";
+
+                } else if (
+                    nearby.includes(poisonLocation)
+                ) {
+
+                    result = "watch out";
+                }
+            }
+
+            document.getElementById("help")
+                .innerHTML = result;
+
+            return result;
+        }
+
+        // Start new game
+        function newGame() {
+
+            score = 0;
+            locationsVisited = 0;
+            lastLocation = null;
+
+            gameOver = false;
+
+            visitedLocations.clear();
+
+            // Fixed positions for testing
+            poisonLocation = 19;
+            roseLocation = 14;
+            lilyLocations = [3, 25];
+            daisyLocations = [2, 5, 11, 20, 21];
+
+            document.getElementById("locations")
+                .innerHTML =
+                "Number of locations checked is zero.";
+
+            document.getElementById("score")
+                .innerHTML =
+                "Score is zero.";
+
+            document.getElementById("help")
+                .innerHTML =
+                "Help report";
+
+            document.getElementById("message")
+                .innerHTML =
+                "Find the flowers!";
+
+            document.getElementById("message")
+                .style.color = "#2f5d34";
+
+            createField();
+        }
+
+        // Connect buttons
+        document.getElementById("helpbtn")
+            .onclick = help;
+
+        document.getElementById("newGame")
+            .onclick = newGame;
+
+        // Initialize game
+        newGame();
+
+    </script>
 
 </body>
 </html>
